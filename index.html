@@ -953,7 +953,7 @@ function startSlideshow(onDone) {
     ? [...verifiedPhotos]
     : ['https://files.catbox.moe/kcwn7q.png'];
 
-  const totalPhotos = Math.min(photos.length, 60);
+  const totalPhotos = photos.length;
   let idx = 0;
 
   function showNext() {
@@ -965,12 +965,12 @@ function startSlideshow(onDone) {
     }
 
     const progress = idx / totalPhotos;
-    const duration = Math.round(600 - progress * 520);
+    const duration = Math.round(150 - progress * 120); // Faster: 150ms to 30ms
 
     img.src = photos[idx % photos.length];
     img.style.opacity = '0';
     void img.offsetWidth;
-    img.style.transition = `opacity ${Math.min(duration * 0.3, 80)}ms ease`;
+    img.style.transition = `opacity ${Math.min(duration * 0.3, 30)}ms ease`;
     img.style.opacity = '1';
 
     idx++;
