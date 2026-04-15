@@ -978,7 +978,7 @@ function startSlideshow(onDone) {
     const progress = idx / totalPhotos;
     const duration = Math.round(150 - progress * 120); // Faster: 150ms to 30ms
 
-    img.src = photos[idx % photos.length];
+    img.src = photos[idx];
     img.style.opacity = '0';
     void img.offsetWidth;
     img.style.transition = `opacity ${Math.min(duration * 0.3, 30)}ms ease`;
