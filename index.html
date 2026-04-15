@@ -693,15 +693,12 @@ const photosStatusEl = document.getElementById('photos-status');
 async function fetchRecNetPhotos() {
   photosStatusEl.textContent = 'Fetching photos…';
   try {
-    const res = await fetch(
-      'https://apim.rec.net/apis/api/images/v4/player/24780424?skip=0&take=1000&sort=0',
-      { headers: { 'Accept': 'application/json' } }
-    );
+    const res = await fetch('./imgs.json');
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
 
-    // data may be an array directly or wrapped
-    const items = Array.isArray(data) ? data : (data.Images || data.images || data.data || []);
+    // data is an array
+    const items = Array.isArray(data) ? data : [];
 
     const urls = items
       .filter(item => item && item.ImageName)
@@ -788,7 +785,7 @@ function drawBlackHole(cx, cy, progress) {
 
   const ringCount = 4;
   for (let i = ringCount; i >= 1; i--) {
-    const ringR = bhRadius * (1 + i * 0.55) + Math.sin(bhPulse + i) * 3;
+    const ringR = Math.max(bhRadius * 0.7 + 1, bhRadius * (1 + i * 0.55) + Math.sin(bhPulse + i) * 3);
     const alpha = (0.35 / i) * progress;
     const grad = bhCtx.createRadialGradient(cx, cy, bhRadius * 0.7, cx, cy, ringR);
     grad.addColorStop(0,   `hsla(${30 + i*15}, 90%, 60%, ${alpha})`);
