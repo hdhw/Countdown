@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rec Room's Doomsday Clock</title>
+<title>Rec Room — Final Countdown</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -836,7 +836,7 @@ function triggerShutdownSequence() {
   // Stop current music and play Coach message
   music.pause();
   music.currentTime = 0;
-  music.src = 'https://files.catbox.moe/n8g9de.mp3';
+  music.src = './Goodbye.mp3';
   music.load();
   music.play().catch(() => {});
   albl.textContent = 'Coach Message';
