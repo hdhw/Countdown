@@ -506,6 +506,8 @@ const TRACKS = [
   { url: 'https://files.catbox.moe/grehy2.mp3',   name: 'First Impression' },
   { url: 'https://files.catbox.moe/tvi4bx.mp3',   name: 'Join the Club' },
   { url: 'https://files.catbox.moe/8wxn5j.mp3',   name: 'Account Organism' },
+  { url: 'https://files.catbox.moe/ox5g7z.mp3',   name: 'Paintball River' },
+  { url: 'https://files.catbox.moe/5r2fl3.mp3',   name: 'Sport Funk' },
 ];
 
 // shuffle a copy so we don't repeat until all played
@@ -569,4 +571,576 @@ document.addEventListener('click', e => {
 </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rec Room — Final Countdown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  :root {
+    --cream: #f0e6d0;
+    --warm: #c9a97a;
+    --rust: #c0522a;
+    --deep: #0e0a06;
+    --mid: #1c140d;
+    --text-dim: rgba(240,230,208,0.45);
+    --glow-color: rgba(192,82,42,0.55);
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: var(--deep);
+    color: var(--cream);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── noise overlay ── */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  /* ── canvas bg ── */
+  #bg {
+    position: fixed; inset: 0;
+    z-index: 0;
+  }
+
+  /* ── vignette ── */
+  .vignette {
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.85) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* ── main layout ── */
+  .stage {
+    position: relative; z-index: 2;
+    width: 100vw; height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 0;
+  }
+
+  /* ── top date strip ── */
+  .date-strip {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 14px 0;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border-bottom: 1px solid rgba(240,230,208,0.07);
+    z-index: 3;
+  }
+
+  /* ── logo area ── */
+  .logo-wrap {
+    display: flex; flex-direction: column; align-items: center;
+    margin-bottom: 48px;
+    animation: rise 1.2s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  .logo-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+
+  .logo-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(52px, 9vw, 100px);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+    text-align: center;
+    position: relative;
+  }
+
+  .logo-title em {
+    font-style: italic;
+    color: var(--warm);
+  }
+
+  .logo-subtitle {
+    margin-top: 14px;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+
+  /* ── divider ── */
+  .divider {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, transparent, var(--warm), transparent);
+    margin-bottom: 40px;
+    animation: rise 1.4s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  /* ── countdown ── */
+  .countdown-wrap {
+    animation: rise 1.5s cubic-bezier(0.22,1,0.36,1) both;
+    display: flex; flex-direction: column; align-items: center;
+  }
+
+  .countdown-grid {
+    display: flex;
+    gap: clamp(16px, 3vw, 40px);
+    align-items: flex-start;
+  }
+
+  .unit {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 10px;
+  }
+
+  .unit-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: clamp(44px, 7vw, 88px);
+    line-height: 1;
+    color: var(--cream);
+    position: relative;
+    min-width: 2ch;
+    text-align: center;
+    /* glow */
+    text-shadow:
+      0 0 30px var(--glow-color),
+      0 0 60px rgba(192,82,42,0.2);
+    transition: text-shadow 0.3s;
+  }
+
+  .unit-val::before {
+    content: attr(data-prev);
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream);
+    opacity: 0;
+    animation: none;
+  }
+
+  .unit-val.tick::before {
+    animation: tick-out 0.35s ease forwards;
+  }
+
+  .unit-val.tick {
+    animation: tick-in 0.35s ease forwards;
+  }
+
+  @keyframes tick-out {
+    0%   { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-24px); }
+  }
+
+  @keyframes tick-in {
+    0%   { opacity: 0; transform: translateY(24px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .unit-sep {
+    font-size: clamp(36px, 5vw, 72px);
+    color: var(--rust);
+    opacity: 0.6;
+    margin-top: 4px;
+    line-height: 1;
+  }
+
+  .unit-label {
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  /* ── progress bar ── */
+  .progress-wrap {
+    margin-top: 52px;
+    width: clamp(280px, 55vw, 600px);
+    animation: rise 1.7s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  .progress-meta {
+    display: flex; justify-content: space-between;
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+
+  .progress-track {
+    height: 2px;
+    background: rgba(240,230,208,0.08);
+    border-radius: 1px;
+    position: relative; overflow: visible;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--rust), var(--warm));
+    border-radius: 1px;
+    transition: width 1s linear;
+    position: relative;
+  }
+
+  .progress-fill::after {
+    content: '';
+    position: absolute; right: -1px; top: 50%;
+    transform: translateY(-50%);
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--warm);
+    box-shadow: 0 0 8px var(--warm), 0 0 20px var(--rust);
+  }
+
+  /* ── shutdown message ── */
+  .shutdown-msg {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 6vw, 72px);
+    font-style: italic;
+    color: var(--warm);
+    text-align: center;
+    opacity: 0;
+    animation: rise 1s ease forwards;
+  }
+
+  /* ── bottom strip ── */
+  .bottom-strip {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 14px 0;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border-top: 1px solid rgba(240,230,208,0.07);
+    z-index: 3;
+  }
+
+  /* ── entrance animation ── */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── scanline shimmer ── */
+  @keyframes scanline {
+    0%   { background-position: 0 0; }
+    100% { background-position: 0 100vh; }
+  }
+
+  .scanlines {
+    position: fixed; inset: 0; z-index: 1;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.04) 3px,
+      rgba(0,0,0,0.04) 4px
+    );
+  }
+
+  /* ── audio hint ── */
+  .audio-hint {
+    position: fixed; bottom: 48px; right: 32px;
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--text-dim);
+    cursor: pointer;
+    z-index: 10;
+    display: flex; align-items: center; gap: 8px;
+    transition: color 0.2s;
+  }
+
+  .audio-hint:hover { color: var(--cream); }
+
+  .audio-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--rust);
+    animation: pulse-dot 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  .audio-dot.paused { animation: none; opacity: 0.3; }
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+<div class="vignette"></div>
+<div class="scanlines"></div>
+
+<div class="date-strip">
+  <span>June 1, 2026 &nbsp;·&nbsp; 16:00 UTC &nbsp;·&nbsp; Servers offline</span>
+</div>
+
+<div class="stage">
+  <div class="logo-wrap">
+    <div class="logo-eyebrow">In memoriam</div>
+    <div class="logo-title">Rec <em>Room</em></div>
+    <div class="logo-subtitle">2016 – 2026</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div id="main-display">
+    <div class="countdown-wrap">
+      <div class="countdown-grid" id="grid">
+        <div class="unit">
+          <div class="unit-val" id="days">--</div>
+          <div class="unit-label">Days</div>
+        </div>
+        <div class="unit-sep">:</div>
+        <div class="unit">
+          <div class="unit-val" id="hours">--</div>
+          <div class="unit-label">Hours</div>
+        </div>
+        <div class="unit-sep">:</div>
+        <div class="unit">
+          <div class="unit-val" id="mins">--</div>
+          <div class="unit-label">Mins</div>
+        </div>
+        <div class="unit-sep">:</div>
+        <div class="unit">
+          <div class="unit-val" id="secs">--</div>
+          <div class="unit-label">Secs</div>
+        </div>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-meta">
+          <span>Launched 2016</span>
+          <span id="pct">—</span>
+          <span>Shutdown 2026</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="bar" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-strip">
+  <span id="bottom-msg">Click anywhere to start music</span>
+</div>
+
+<div class="audio-hint" id="audio-btn">
+  <div class="audio-dot paused" id="audio-dot"></div>
+  <span id="audio-label">Music off</span>
+</div>
+
+<audio id="music"></audio>
+
+<script>
+// ── canvas embers ──
+const canvas = document.getElementById('bg');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const EMBERS = Array.from({length: 90}, () => ({
+  x: Math.random() * window.innerWidth,
+  y: Math.random() * window.innerHeight,
+  r: Math.random() * 1.5 + 0.3,
+  vy: -(Math.random() * 0.4 + 0.1),
+  vx: (Math.random() - 0.5) * 0.15,
+  life: Math.random(),
+  maxLife: Math.random() * 0.5 + 0.3,
+  hue: Math.random() * 30 + 10, // warm oranges
+}));
+
+function drawFrame() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // deep bg gradient
+  const grad = ctx.createRadialGradient(
+    canvas.width * 0.5, canvas.height * 0.35, 0,
+    canvas.width * 0.5, canvas.height * 0.35, canvas.width * 0.75
+  );
+  grad.addColorStop(0, '#1c1008');
+  grad.addColorStop(1, '#080503');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  EMBERS.forEach(e => {
+    e.life += 0.003;
+    if (e.life > e.maxLife) {
+      e.life = 0;
+      e.x = Math.random() * canvas.width;
+      e.y = canvas.height + 10;
+    }
+    e.x += e.vx;
+    e.y += e.vy;
+
+    const alpha = Math.sin((e.life / e.maxLife) * Math.PI) * 0.7;
+    ctx.beginPath();
+    ctx.arc(e.x, e.y, e.r, 0, Math.PI * 2);
+    ctx.fillStyle = `hsla(${e.hue}, 80%, 70%, ${alpha})`;
+    ctx.fill();
+  });
+
+  requestAnimationFrame(drawFrame);
+}
+drawFrame();
+
+// ── countdown ──
+const SHUTDOWN = new Date("2026-06-01T16:00:00Z");
+const LAUNCH   = new Date("2016-01-01T00:00:00Z");
+const TOTAL    = SHUTDOWN - LAUNCH;
+
+const dEl   = document.getElementById('days');
+const hEl   = document.getElementById('hours');
+const mEl   = document.getElementById('mins');
+const sEl   = document.getElementById('secs');
+const bar   = document.getElementById('bar');
+const pct   = document.getElementById('pct');
+const bMsg  = document.getElementById('bottom-msg');
+const disp  = document.getElementById('main-display');
+
+function pad(n) { return String(Math.max(0,n)).padStart(2,'0'); }
+
+function animTick(el, val) {
+  const padded = pad(val);
+  if (el.dataset.prev === padded) return;
+  el.dataset.prev = el.textContent;
+  el.textContent = padded;
+  el.classList.remove('tick');
+  void el.offsetWidth;
+  el.classList.add('tick');
+  setTimeout(() => el.classList.remove('tick'), 350);
+}
+
+function update() {
+  const now  = new Date();
+  const diff = SHUTDOWN - now;
+  const elapsed = now - LAUNCH;
+
+  if (diff <= 0) {
+    disp.innerHTML = `<div class="shutdown-msg">It's gone. 💔</div>`;
+    bar.style.width = '100%';
+    pct.textContent = '100%';
+    bMsg.textContent = 'Rest in peace, Rec Room.';
+    return;
+  }
+
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const mi = Math.floor((diff % 3600000) / 60000);
+  const s  = Math.floor((diff % 60000) / 1000);
+
+  animTick(dEl, d);
+  animTick(hEl, h);
+  animTick(mEl, mi);
+  animTick(sEl, s);
+
+  const progress = Math.min(elapsed / TOTAL * 100, 100);
+  bar.style.width = progress.toFixed(4) + '%';
+  pct.textContent = progress.toFixed(2) + '%';
+
+  // dynamic bottom message
+  if (d > 60)      bMsg.textContent = 'Still time to make memories.';
+  else if (d > 14) bMsg.textContent = 'The clock is running out.';
+  else if (d > 3)  bMsg.textContent = 'Cherish the time that remains.';
+  else             bMsg.textContent = 'The end is near. Thank you, Rec Room.';
+}
+
+setInterval(update, 1000);
+update();
+
+// ── audio playlist ──
+const TRACKS = [
+  { url: 'https://files.catbox.moe/9rmp8d.mp3',   name: 'OOBE' },
+  { url: 'https://files.catbox.moe/czy950.mp3',   name: 'Electar' },
+  { url: 'https://files.catbox.moe/grehy2.mp3',   name: 'First Impression' },
+  { url: 'https://files.catbox.moe/tvi4bx.mp3',   name: 'Join the Club' },
+  { url: 'https://files.catbox.moe/8wxn5j.mp3',   name: 'Account Organism' },
+  { url: 'https://files.catbox.moe/ox5g7z.mp3',   name: 'Paintball River' },
+  { url: 'https://files.catbox.moe/5r2fl3.mp3',   name: 'Sport Funk' },
+];
+
+// shuffle a copy so we don't repeat until all played
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const music  = document.getElementById('music');
+const dot    = document.getElementById('audio-dot');
+const albl   = document.getElementById('audio-label');
+const abtn   = document.getElementById('audio-btn');
+
+let queue   = shuffle(TRACKS);
+let qIdx    = 0;
+let playing = false;
+
+function loadTrack(idx) {
+  const track = queue[idx];
+  music.src = track.url;
+  music.load();
+  albl.textContent = track.name;
+}
+
+function nextTrack() {
+  qIdx++;
+  if (qIdx >= queue.length) {
+    queue = shuffle(TRACKS);
+    qIdx = 0;
+  }
+  loadTrack(qIdx);
+  if (playing) music.play().catch(() => {});
+}
+
+music.addEventListener('ended', nextTrack);
+
+// start with a random track
+loadTrack(qIdx);
+
+function toggleAudio() {
+  if (playing) {
+    music.pause();
+    dot.classList.add('paused');
+    albl.textContent = queue[qIdx].name + ' ·· paused';
+  } else {
+    music.play().catch(() => {});
+    dot.classList.remove('paused');
+    albl.textContent = queue[qIdx].name;
+  }
+  playing = !playing;
+}
+
+abtn.addEventListener('click', e => { e.stopPropagation(); toggleAudio(); });
+document.addEventListener('click', e => {
+  if (!playing) toggleAudio();
+}, { once: true });
+</script>
+</body>
+</html>
