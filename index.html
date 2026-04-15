@@ -376,9 +376,7 @@
   <span id="audio-label">Music off</span>
 </div>
 
-<audio id="music" loop>
-  <source src="https://files.catbox.moe/9rmp8d.mp3" type="audio/mpeg">
-</audio>
+<audio id="music"></audio>
 
 <script>
 // ── canvas embers ──
@@ -501,31 +499,74 @@ function update() {
 setInterval(update, 1000);
 update();
 
-// ── audio ──
-const music = document.getElementById('music');
-const dot   = document.getElementById('audio-dot');
-const albl  = document.getElementById('audio-label');
-const abtn  = document.getElementById('audio-btn');
+// ── audio playlist ──
+const TRACKS = [
+  { url: 'https://files.catbox.moe/9rmp8d.mp3',   name: 'OOBE' },
+  { url: 'https://files.catbox.moe/czy950.mp3',   name: 'Electar' },
+  { url: 'https://files.catbox.moe/grehy2.mp3',   name: 'First Impression' },
+  { url: 'https://files.catbox.moe/tvi4bx.mp3',   name: 'Join the Club' },
+  { url: 'https://files.catbox.moe/8wxn5j.mp3',   name: 'Account Organism' },
+];
 
+// shuffle a copy so we don't repeat until all played
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const music  = document.getElementById('music');
+const dot    = document.getElementById('audio-dot');
+const albl   = document.getElementById('audio-label');
+const abtn   = document.getElementById('audio-btn');
+
+let queue   = shuffle(TRACKS);
+let qIdx    = 0;
 let playing = false;
+
+function loadTrack(idx) {
+  const track = queue[idx];
+  music.src = track.url;
+  music.load();
+  albl.textContent = track.name;
+}
+
+function nextTrack() {
+  qIdx++;
+  if (qIdx >= queue.length) {
+    queue = shuffle(TRACKS);
+    qIdx = 0;
+  }
+  loadTrack(qIdx);
+  if (playing) music.play().catch(() => {});
+}
+
+music.addEventListener('ended', nextTrack);
+
+// start with a random track
+loadTrack(qIdx);
 
 function toggleAudio() {
   if (playing) {
     music.pause();
     dot.classList.add('paused');
-    albl.textContent = 'Music off';
+    albl.textContent = queue[qIdx].name + ' ·· paused';
   } else {
-    music.play().catch(()=>{});
+    music.play().catch(() => {});
     dot.classList.remove('paused');
-    albl.textContent = 'Music on';
+    albl.textContent = queue[qIdx].name;
   }
   playing = !playing;
 }
 
-abtn.addEventListener('click', toggleAudio);
+abtn.addEventListener('click', e => { e.stopPropagation(); toggleAudio(); });
 document.addEventListener('click', e => {
-  if (!playing && e.target !== abtn) toggleAudio();
+  if (!playing) toggleAudio();
 }, { once: true });
 </script>
 </body>
 </html>
+
