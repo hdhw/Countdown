@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rec Room — Final Countdown</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -24,7 +24,17 @@
     overflow: hidden;
     background: var(--deep);
     color: var(--cream);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+  }
+
+  .rr-logo {
+    width: clamp(72px, 10vw, 110px);
+    height: clamp(72px, 10vw, 110px);
+    object-fit: contain;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 18px rgba(192,82,42,0.5)) drop-shadow(0 0 40px rgba(192,82,42,0.2));
+    animation: rise 1s cubic-bezier(0.22,1,0.36,1) both;
   }
 
   /* ── noise overlay ── */
@@ -89,7 +99,8 @@
   }
 
   .logo-title {
-    font-family: 'DM Serif Display', serif;
+    font-family: 'Jost', sans-serif;
+    font-weight: 900;
     font-size: clamp(52px, 9vw, 100px);
     line-height: 0.9;
     letter-spacing: -0.02em;
@@ -138,8 +149,8 @@
   }
 
   .unit-val {
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
+    font-family: 'Jost', sans-serif;
+    font-weight: 900;
     font-size: clamp(44px, 7vw, 88px);
     line-height: 1;
     color: var(--cream);
@@ -304,6 +315,7 @@
 
 <div class="stage">
   <div class="logo-wrap">
+    <img class="rr-logo" src="https://static.wikia.nocookie.net/dream-logos/images/5/5e/Default.png/revision/latest?cb=20240218094540" alt="Rec Room logo">
     <div class="logo-eyebrow">In memoriam</div>
     <div class="logo-title">Rec <em>Room</em></div>
     <div class="logo-subtitle">2016 – 2026</div>
