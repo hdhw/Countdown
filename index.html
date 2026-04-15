@@ -645,6 +645,10 @@ let queue   = shuffle(TRACKS);
 let qIdx    = 0;
 let playing = false;
 
+// Preload goodbye audio
+const goodbyeAudio = new Audio('./Goodbye.mp3');
+goodbyeAudio.preload = 'auto';
+
 function loadTrack(idx) {
   const track = queue[idx];
   music.src = track.url;
@@ -835,10 +839,8 @@ function drawBlackHole(cx, cy, progress) {
 function triggerShutdownSequence() {
   // Stop current music and play Coach message
   music.pause();
-  music.currentTime = 0;
-  music.src = './Goodbye.mp3';
-  music.load();
-  music.play().catch(() => {});
+  goodbyeAudio.currentTime = 0;
+  goodbyeAudio.play().catch(() => {});
   albl.textContent = 'Coach Message';
   dot.classList.remove('paused');
 
