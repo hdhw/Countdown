@@ -423,8 +423,8 @@
 
 <div class="stage" id="stage">
   <div class="logo-wrap" id="logo-wrap">
-    <img class="rr-logo" src="https://files.catbox.moe/kcwn7q.png" alt="Rec Room logo">
-    <div class="logo-eyebrow">In memoriam</div>
+    <img class="rr-logo" src="logo.png" alt="Rec Room logo">
+    <div class="logo-eyebrow">With all love.</div>
     <div class="logo-title">Rec <em>Room</em></div>
     <div class="logo-subtitle">2016 – 2026</div>
   </div>
@@ -618,13 +618,13 @@ update();
 
 // ── audio playlist ──
 const TRACKS = [
-  { url: 'https://files.catbox.moe/9rmp8d.mp3',   name: 'OOBE' },
-  { url: 'https://files.catbox.moe/czy950.mp3',   name: 'Electar' },
-  { url: 'https://files.catbox.moe/grehy2.mp3',   name: 'First Impression' },
-  { url: 'https://files.catbox.moe/tvi4bx.mp3',   name: 'Join the Club' },
-  { url: 'https://files.catbox.moe/8wxn5j.mp3',   name: 'Account Organism' },
-  { url: 'https://files.catbox.moe/ox5g7z.mp3',   name: 'Paintball River' },
-  { url: 'https://files.catbox.moe/5r2fl3.mp3',   name: 'Sport Funk' },
+  { url: 'OOBE.mp3', name: 'OOBE' },
+  { url: 'Electar.mp3', name: 'Electar' },
+  { url: 'First Impression.mp3', name: 'First Impression' },
+  { url: 'Join the Club.mp3', name: 'Join the Club' },
+  { url: 'Account Organism.mp3', name: 'Account Organism' },
+  { url: 'Paintball River.mp3', name: 'Paintball River' },
+  { url: 'Sport Funk.mp3', name: 'Sport Funk' },
 ];
 
 function shuffle(arr) {
@@ -724,7 +724,7 @@ async function fetchRecNetPhotos() {
     photosStatusEl.textContent = 'Photos unavailable — using fallback';
     setTimeout(() => { photosStatusEl.style.opacity = '0'; }, 3000);
     // Fallback to logo
-    verifiedPhotos = ['https://files.catbox.moe/kcwn7q.png'];
+    verifiedPhotos = ['logo.png'];
   }
 }
 
@@ -962,7 +962,7 @@ function startSlideshow(onDone) {
 
   const photos = verifiedPhotos.length > 0
     ? [...verifiedPhotos]
-    : ['https://files.catbox.moe/kcwn7q.png'];
+    : ['logo.png'];
 
   const totalPhotos = photos.length;
   let idx = 0;
