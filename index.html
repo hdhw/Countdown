@@ -272,6 +272,7 @@
 
   .audio-dot.paused { animation: none; opacity: 0.3; }
 
+  /* ── MANUAL TRIGGER BUTTON ── */
   #trigger-btn {
     position: fixed;
     bottom: 48px;
@@ -300,7 +301,9 @@
     color: var(--warm);
   }
 
-  #trigger-btn:active { transform: scale(0.97); }
+  #trigger-btn:active {
+    transform: scale(0.97);
+  }
 
   #trigger-btn.disabled {
     opacity: 0.3;
@@ -313,6 +316,7 @@
     background: var(--rust);
   }
 
+  /* photos status indicator */
   #photos-status {
     position: fixed;
     top: 48px;
@@ -352,7 +356,7 @@
     transition: opacity 0.08s ease;
   }
 
-  /* ── GOODBYE / EPILOGUE ── */
+  /* ── GOODBYE TEXT ── */
   #goodbye {
     position: fixed; inset: 0;
     z-index: 70;
@@ -377,7 +381,10 @@
     text-shadow: 0 0 60px rgba(192,82,42,0.4), 0 0 120px rgba(192,82,42,0.15);
   }
 
-  #goodbye-text em { color: var(--warm); font-style: italic; }
+  #goodbye-text em {
+    color: var(--warm);
+    font-style: italic;
+  }
 
   #goodbye-year {
     font-size: clamp(12px, 2vw, 18px);
@@ -386,68 +393,6 @@
     color: var(--text-dim);
     opacity: 0;
     transition: opacity 2s ease 1s;
-  }
-
-  /* epilogue logo */
-  #epilogue-logo {
-    width: clamp(80px, 12vw, 140px);
-    opacity: 0;
-    transition: opacity 2s ease;
-    filter: drop-shadow(0 0 30px rgba(192,82,42,0.6)) drop-shadow(0 0 80px rgba(192,82,42,0.25));
-    display: none;
-  }
-
-  /* taunt message */
-  #taunt {
-    position: fixed;
-    bottom: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: clamp(11px, 1.5vw, 14px);
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    opacity: 0;
-    transition: opacity 0.8s ease;
-    text-align: center;
-    white-space: nowrap;
-    z-index: 80;
-    pointer-events: none;
-  }
-
-  #taunt.visible { opacity: 1; }
-
-  /* fine — playlist resumes indicator */
-  #fine-wrap {
-    position: fixed; inset: 0;
-    z-index: 75;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 20px;
-    background: rgba(0,0,0,0.0);
-  }
-
-  #fine-text {
-    font-family: 'Jost', sans-serif;
-    font-weight: 900;
-    font-size: clamp(32px, 6vw, 72px);
-    color: var(--warm);
-    letter-spacing: -0.01em;
-    opacity: 0;
-    text-align: center;
-    transition: opacity 1.5s ease;
-    text-shadow: 0 0 40px rgba(192,82,42,0.5);
-  }
-
-  #fine-sub {
-    font-size: 11px;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    opacity: 0;
-    transition: opacity 1.5s ease 0.5s;
   }
 
   /* ── SUCK-IN animation ── */
@@ -528,7 +473,8 @@
   <span id="bottom-msg">Click anywhere to start music</span>
 </div>
 
-<button id="trigger-btn">
+<!-- Manual trigger button -->
+<button id="trigger-btn" onclick="manualTrigger()">
   <div id="trigger-btn-dot"></div>
   <span>Trigger sequence</span>
 </button>
@@ -547,19 +493,9 @@
 
 <!-- Goodbye overlay -->
 <div id="goodbye">
-  <img id="epilogue-logo" src="logo.png" alt="">
   <div id="goodbye-text">Goodbye,<br><em>Rec Room.</em></div>
   <div id="goodbye-year">2016 — 2026</div>
 </div>
-
-<!-- "Fine" overlay -->
-<div id="fine-wrap">
-  <div id="fine-text">Fine. I feel bad.</div>
-  <div id="fine-sub">Here's one more song.</div>
-</div>
-
-<!-- Taunt line -->
-<div id="taunt"></div>
 
 <script>
 // ── canvas embers ──
@@ -604,6 +540,7 @@ function drawFrame() {
     }
     e.x += e.vx;
     e.y += e.vy;
+
     const alpha = Math.sin((e.life / e.maxLife) * Math.PI) * 0.7;
     ctx.beginPath();
     ctx.arc(e.x, e.y, e.r, 0, Math.PI * 2);
@@ -620,13 +557,13 @@ const SHUTDOWN = new Date("2026-06-01T16:00:00Z");
 const LAUNCH   = new Date("2016-01-01T00:00:00Z");
 const TOTAL    = SHUTDOWN - LAUNCH;
 
-const dEl  = document.getElementById('days');
-const hEl  = document.getElementById('hours');
-const mEl  = document.getElementById('mins');
-const sEl  = document.getElementById('secs');
-const bar  = document.getElementById('bar');
-const pct  = document.getElementById('pct');
-const bMsg = document.getElementById('bottom-msg');
+const dEl   = document.getElementById('days');
+const hEl   = document.getElementById('hours');
+const mEl   = document.getElementById('mins');
+const sEl   = document.getElementById('secs');
+const bar   = document.getElementById('bar');
+const pct   = document.getElementById('pct');
+const bMsg  = document.getElementById('bottom-msg');
 
 function pad(n) { return String(Math.max(0,n)).padStart(2,'0'); }
 
@@ -681,12 +618,13 @@ update();
 
 // ── audio playlist ──
 const TRACKS = [
-  { url: 'OOBE.mp3',             name: 'OOBE' },
-  { url: 'Electar.mp3',          name: 'Electar' },
+  { url: 'OOBE.mp3', name: 'OOBE' },
+  { url: 'Electar.mp3', name: 'Electar' },
   { url: 'First Impression.mp3', name: 'First Impression' },
+  // { url: 'Join the Club.mp3', name: 'Join the Club' },
   { url: 'Account Organism.mp3', name: 'Account Organism' },
-  { url: 'Paintball River.mp3',  name: 'Paintball River' },
-  { url: 'Sport Funk.mp3',       name: 'Sport Funk' },
+  { url: 'Paintball River.mp3', name: 'Paintball River' },
+  { url: 'Sport Funk.mp3', name: 'Sport Funk' },
 ];
 
 function shuffle(arr) {
@@ -698,15 +636,16 @@ function shuffle(arr) {
   return a;
 }
 
-const music = document.getElementById('music');
-const dot   = document.getElementById('audio-dot');
-const albl  = document.getElementById('audio-label');
-const abtn  = document.getElementById('audio-btn');
+const music  = document.getElementById('music');
+const dot    = document.getElementById('audio-dot');
+const albl   = document.getElementById('audio-label');
+const abtn   = document.getElementById('audio-btn');
 
 let queue   = shuffle(TRACKS);
 let qIdx    = 0;
 let playing = false;
 
+// Preload goodbye audio
 const goodbyeAudio = new Audio('./Goodbye.mp3');
 goodbyeAudio.preload = 'auto';
 
@@ -719,7 +658,10 @@ function loadTrack(idx) {
 
 function nextTrack() {
   qIdx++;
-  if (qIdx >= queue.length) { queue = shuffle(TRACKS); qIdx = 0; }
+  if (qIdx >= queue.length) {
+    queue = shuffle(TRACKS);
+    qIdx = 0;
+  }
   loadTrack(qIdx);
   if (playing) music.play().catch(() => {});
 }
@@ -745,7 +687,10 @@ document.addEventListener('click', e => {
   if (!playing) toggleAudio();
 }, { once: true });
 
-// ── rec.net photos ──
+// ─────────────────────────────────────────────
+// ── REC.NET PHOTO FETCHING ──
+// ─────────────────────────────────────────────
+
 let verifiedPhotos = [];
 const photosStatusEl = document.getElementById('photos-status');
 
@@ -755,37 +700,52 @@ async function fetchRecNetPhotos() {
     const res = await fetch('./imgs.json');
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
+
+    // data is an array
     const items = Array.isArray(data) ? data : [];
+
     const urls = items
       .filter(item => item && item.ImageName)
       .map(item => `https://img.rec.net/${item.ImageName}?width=1080`);
+
     if (urls.length === 0) throw new Error('No images found');
+
+    // Shuffle
     for (let i = urls.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [urls[i], urls[j]] = [urls[j], urls[i]];
     }
+
     verifiedPhotos = urls;
     photosStatusEl.textContent = `${urls.length} photos loaded`;
     setTimeout(() => { photosStatusEl.style.opacity = '0'; }, 2000);
   } catch (err) {
-    console.warn('Photo fetch failed:', err);
+    console.warn('Rec.net photo fetch failed:', err);
     photosStatusEl.textContent = 'Photos unavailable — using fallback';
     setTimeout(() => { photosStatusEl.style.opacity = '0'; }, 3000);
+    // Fallback to logo
     verifiedPhotos = ['logo.png'];
   }
 }
+
+// Kick off immediately
 fetchRecNetPhotos();
 
-// ── trigger button ──
-document.getElementById('trigger-btn').addEventListener('click', e => {
-  e.stopPropagation();
+// ─────────────────────────────────────────────
+// ── MANUAL TRIGGER ──
+// ─────────────────────────────────────────────
+
+function manualTrigger() {
   if (shutdownTriggered) return;
   shutdownTriggered = true;
   document.getElementById('trigger-btn').classList.add('disabled');
   triggerShutdownSequence();
-});
+}
 
-// ── black hole canvas ──
+// ─────────────────────────────────────────────
+// ── BLACK HOLE CANVAS ──
+// ─────────────────────────────────────────────
+
 const bhCanvas = document.getElementById('blackhole-canvas');
 const bhCtx = bhCanvas.getContext('2d');
 let bhAnimId = null;
@@ -807,7 +767,8 @@ function createBHParticles(cx, cy) {
     return {
       x: cx + Math.cos(angle) * dist,
       y: cy + Math.sin(angle) * dist,
-      angle, dist,
+      angle,
+      dist,
       speed: Math.random() * 1.5 + 0.5,
       size:  Math.random() * 2.5 + 0.5,
       hue:   Math.random() * 60 + 200,
@@ -818,6 +779,7 @@ function createBHParticles(cx, cy) {
 
 function drawBlackHole(cx, cy, progress) {
   bhCtx.clearRect(0, 0, bhCanvas.width, bhCanvas.height);
+
   bhCtx.fillStyle = `rgba(0,0,0,${progress * 0.7})`;
   bhCtx.fillRect(0, 0, bhCanvas.width, bhCanvas.height);
 
@@ -825,34 +787,31 @@ function drawBlackHole(cx, cy, progress) {
   bhRadius = progress * maxR * 0.18;
   bhPulse += 0.04;
 
-const ringCount = 6;
-
-const innerR = Math.max(0, bhRadius * 0.7);
-
-for (let i = ringCount; i >= 1; i--) {
-  const outerR = Math.max(
-    innerR + 1,
-    bhRadius * (1 + i * 0.55) + Math.sin(bhPulse + i) * 3
-  );
-
-  const alpha = (0.35 / i) * progress;
-  const grad = bhCtx.createRadialGradient(cx, cy, innerR, cx, cy, outerR);
-
-  bhCtx.beginPath();
-  bhCtx.arc(cx, cy, outerR, 0, Math.PI * 2);
-  bhCtx.fillStyle = grad;
-  bhCtx.fill();
-}
+  const ringCount = 6;
+  for (let i = ringCount; i >= 1; i--) {
+    const ringR = Math.max(bhRadius * 0.7 + 1, bhRadius * (1 + i * 0.55) + Math.sin(bhPulse + i) * 3);
+    const alpha = (0.35 / i) * progress;
+    const grad = bhCtx.createRadialGradient(cx, cy, bhRadius * 0.7, cx, cy, ringR);
+    grad.addColorStop(0,   `hsla(${30 + i*15}, 90%, 60%, ${alpha})`);
+    grad.addColorStop(0.5, `hsla(${200 + i*20}, 70%, 50%, ${alpha * 0.5})`);
+    grad.addColorStop(1,   'transparent');
+    bhCtx.beginPath();
+    bhCtx.arc(cx, cy, ringR, 0, Math.PI * 2);
+    bhCtx.fillStyle = grad;
+    bhCtx.fill();
+  }
 
   bhParticles.forEach(p => {
     p.angle -= (p.speed * 0.015) * (1 + progress * 2);
     p.dist  -= p.speed * 0.5 * progress;
     p.x = cx + Math.cos(p.angle) * p.dist;
     p.y = cy + Math.sin(p.angle) * p.dist;
+
     if (p.dist < bhRadius) {
       p.dist = Math.random() * Math.min(window.innerWidth, window.innerHeight) * 0.5 + 100;
       p.alpha = Math.random() * 0.6 + 0.2;
     }
+
     const alpha = p.alpha * Math.min(p.dist / bhRadius, 1) * progress;
     bhCtx.beginPath();
     bhCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
@@ -876,15 +835,16 @@ for (let i = ringCount; i >= 1; i--) {
   bhCtx.fill();
 }
 
-// ── full shutdown sequence ──
+// ── Full shutdown sequence ──
 function triggerShutdownSequence() {
+  // Stop current music and play Coach message
   music.pause();
   goodbyeAudio.currentTime = 0;
   goodbyeAudio.play().catch(() => {});
   albl.textContent = 'Coach Message';
   dot.classList.remove('paused');
-  playing = false;
 
+  // Hide the trigger button immediately
   const btn = document.getElementById('trigger-btn');
   btn.style.transition = 'opacity 0.3s';
   btn.style.opacity = '0';
@@ -932,17 +892,19 @@ function triggerShutdownSequence() {
 
 function suckElements(targets, cx, cy, onDone) {
   const delay = 280;
-  let maxTime = 0;
+  let totalTime = 0;
 
   targets.forEach((el, i) => {
     if (!el) return;
     const suckDelay = i * delay;
-    if (suckDelay + 700 > maxTime) maxTime = suckDelay + 700;
+    totalTime = suckDelay + 700;
 
     setTimeout(() => {
+      if (!el) return;
       const rect = el.getBoundingClientRect();
       const elCx = rect.left + rect.width  / 2;
       const elCy = rect.top  + rect.height / 2;
+
       const dx = cx - elCx;
       const dy = cy - elCy;
       const rot = (Math.random() * 360 + 180) + 'deg';
@@ -958,7 +920,7 @@ function suckElements(targets, cx, cy, onDone) {
     }, suckDelay);
   });
 
-  setTimeout(onDone, maxTime + 400);
+  setTimeout(onDone, totalTime + 400);
 }
 
 function expandBlackHole(cx, cy, onDone) {
@@ -975,6 +937,7 @@ function expandBlackHole(cx, cy, onDone) {
     bhCtx.clearRect(0, 0, bhCanvas.width, bhCanvas.height);
     bhCtx.fillStyle = 'rgba(0,0,0,0.95)';
     bhCtx.fillRect(0, 0, bhCanvas.width, bhCanvas.height);
+
     bhCtx.beginPath();
     bhCtx.arc(cx, cy, r, 0, Math.PI * 2);
     bhCtx.fillStyle = '#000';
@@ -991,12 +954,16 @@ function expandBlackHole(cx, cy, onDone) {
   requestAnimationFrame(frame);
 }
 
+// ── Photo slideshow using Rec.net photos ──
 function startSlideshow(onDone) {
   const el  = document.getElementById('slideshow');
   const img = document.getElementById('slideshow-img');
   el.style.display = 'flex';
 
-  const photos = verifiedPhotos.length > 0 ? [...verifiedPhotos] : ['logo.png'];
+  const photos = verifiedPhotos.length > 0
+    ? [...verifiedPhotos]
+    : ['logo.png'];
+
   const totalPhotos = photos.length;
   let idx = 0;
 
@@ -1009,7 +976,7 @@ function startSlideshow(onDone) {
     }
 
     const progress = idx / totalPhotos;
-    const duration = Math.round(150 - progress * 120);
+    const duration = Math.round(150 - progress * 120); // Faster: 150ms to 30ms
 
     img.src = photos[idx];
     img.style.opacity = '0';
@@ -1024,122 +991,17 @@ function startSlideshow(onDone) {
   showNext();
 }
 
-// ── goodbye + epilogue sequence ──
 function showGoodbye() {
   const el   = document.getElementById('goodbye');
   const text = document.getElementById('goodbye-text');
   const year = document.getElementById('goodbye-year');
-  const logo = document.getElementById('epilogue-logo');
 
   el.style.display = 'flex';
-
-  // Fade in goodbye text
   requestAnimationFrame(() => {
     text.style.opacity = '1';
     text.style.transform = 'scale(1)';
     year.style.opacity = '1';
   });
-
-  // After 4s: fade out goodbye text
-  setTimeout(() => {
-    text.style.transition = 'opacity 1.5s ease, transform 1.5s ease';
-    text.style.opacity = '0';
-    text.style.transform = 'scale(0.95)';
-    year.style.transition = 'opacity 1.5s ease';
-    year.style.opacity = '0';
-
-    // After fade: show logo
-    setTimeout(() => {
-      text.style.display = 'none';
-      year.style.display = 'none';
-      logo.style.display = 'block';
-      requestAnimationFrame(() => {
-        logo.style.opacity = '1';
-      });
-
-      // Begin taunting after logo pops in (2s for logo fade)
-      setTimeout(() => {
-        startEpilogue();
-      }, 2500);
-
-    }, 1600);
-  }, 4000);
-}
-
-// ── taunt sequence ──
-function showTaunt(message, onDone) {
-  const el = document.getElementById('taunt');
-  el.textContent = message;
-  el.classList.add('visible');
-  setTimeout(() => {
-    el.classList.remove('visible');
-    setTimeout(onDone, 800);
-  }, 2200);
-}
-
-function startEpilogue() {
-  const taunts = [
-    { msg: "What are you waiting for?",     delay: 0    },
-    { msg: "The game won't come back.",      delay: 2000 },
-    { msg: "Really?",                        delay: 5000 },
-    { msg: "Hmm. You're still here.",        delay: 7000 },
-  ];
-
-  taunts.forEach(({ msg, delay }) => {
-    setTimeout(() => {
-      const el = document.getElementById('taunt');
-      el.textContent = msg;
-      el.classList.add('visible');
-      setTimeout(() => el.classList.remove('visible'), 2200);
-    }, delay);
-  });
-
-  // After all taunts, show "Fine. I feel bad." then resume music
-  setTimeout(() => {
-    showFine();
-  }, 11500);
-}
-
-function showFine() {
-  const wrap  = document.getElementById('fine-wrap');
-  const text  = document.getElementById('fine-text');
-  const sub   = document.getElementById('fine-sub');
-  const logo  = document.getElementById('epilogue-logo');
-
-  // Fade out logo
-  logo.style.transition = 'opacity 1s ease';
-  logo.style.opacity = '0';
-
-  wrap.style.display = 'flex';
-  requestAnimationFrame(() => {
-    text.style.opacity = '1';
-    sub.style.opacity  = '1';
-  });
-
-  // Start playlist after 2.5s
-  setTimeout(() => {
-    queue = shuffle(TRACKS);
-    qIdx  = 0;
-    loadTrack(qIdx);
-    music.play().catch(() => {});
-    dot.classList.remove('paused');
-    playing = true;
-    albl.textContent = queue[qIdx].name;
-
-    // Update sub text
-    sub.textContent = '↑ ' + queue[qIdx].name;
-    sub.style.opacity = '1';
-
-    // Fade fine text out after a bit
-    setTimeout(() => {
-      text.style.transition = 'opacity 1.5s ease';
-      text.style.opacity = '0';
-      sub.style.transition  = 'opacity 1.5s ease 0.5s';
-      sub.style.opacity  = '0';
-      setTimeout(() => { wrap.style.display = 'none'; }, 2500);
-    }, 4000);
-
-  }, 2500);
 }
 </script>
 </body>
