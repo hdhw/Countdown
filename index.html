@@ -46,10 +46,7 @@
     z-index: 999;
   }
 
-  #bg {
-    position: fixed; inset: 0;
-    z-index: 0;
-  }
+  #bg { position: fixed; inset: 0; z-index: 0; }
 
   .vignette {
     position: fixed; inset: 0;
@@ -63,7 +60,6 @@
     width: 100vw; height: 100vh;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    gap: 0;
   }
 
   .date-strip {
@@ -100,13 +96,9 @@
     letter-spacing: -0.02em;
     color: var(--cream);
     text-align: center;
-    position: relative;
   }
 
-  .logo-title em {
-    font-style: italic;
-    color: var(--warm);
-  }
+  .logo-title em { font-style: italic; color: var(--warm); }
 
   .logo-subtitle {
     margin-top: 14px;
@@ -117,8 +109,7 @@
   }
 
   .divider {
-    width: 1px;
-    height: 40px;
+    width: 1px; height: 40px;
     background: linear-gradient(to bottom, transparent, var(--warm), transparent);
     margin-bottom: 40px;
     animation: rise 1.4s cubic-bezier(0.22,1,0.36,1) both;
@@ -135,10 +126,7 @@
     align-items: flex-start;
   }
 
-  .unit {
-    display: flex; flex-direction: column; align-items: center;
-    gap: 10px;
-  }
+  .unit { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 
   .unit-val {
     font-family: 'Jost', sans-serif;
@@ -146,18 +134,12 @@
     font-size: clamp(44px, 7vw, 88px);
     line-height: 1;
     color: var(--cream);
-    position: relative;
     min-width: 2ch;
     text-align: center;
-    text-shadow:
-      0 0 30px var(--glow-color),
-      0 0 60px rgba(192,82,42,0.2);
-    transition: text-shadow 0.3s;
+    text-shadow: 0 0 30px var(--glow-color), 0 0 60px rgba(192,82,42,0.2);
   }
 
-  .unit-val.tick {
-    animation: tick-flash 0.2s ease;
-  }
+  .unit-val.tick { animation: tick-flash 0.2s ease; }
 
   @keyframes tick-flash {
     0%   { opacity: 0.3; }
@@ -166,17 +148,13 @@
 
   .unit-sep {
     font-size: clamp(36px, 5vw, 72px);
-    color: var(--rust);
-    opacity: 0.6;
-    margin-top: 4px;
-    line-height: 1;
+    color: var(--rust); opacity: 0.6;
+    margin-top: 4px; line-height: 1;
   }
 
   .unit-label {
-    font-size: 10px;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--text-dim);
+    font-size: 10px; letter-spacing: 0.35em;
+    text-transform: uppercase; color: var(--text-dim);
   }
 
   .progress-wrap {
@@ -195,8 +173,7 @@
   .progress-track {
     height: 2px;
     background: rgba(240,230,208,0.08);
-    border-radius: 1px;
-    position: relative; overflow: visible;
+    border-radius: 1px; overflow: visible;
   }
 
   .progress-fill {
@@ -211,8 +188,7 @@
     content: '';
     position: absolute; right: -1px; top: 50%;
     transform: translateY(-50%);
-    width: 6px; height: 6px;
-    border-radius: 50%;
+    width: 6px; height: 6px; border-radius: 50%;
     background: var(--warm);
     box-shadow: 0 0 8px var(--warm), 0 0 20px var(--rust);
   }
@@ -220,13 +196,9 @@
   .bottom-strip {
     position: fixed; bottom: 0; left: 0; right: 0;
     display: flex; align-items: center; justify-content: center;
-    padding: 14px 0;
-    font-size: 10px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    border-top: 1px solid rgba(240,230,208,0.07);
-    z-index: 3;
+    padding: 14px 0; font-size: 10px; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--text-dim);
+    border-top: 1px solid rgba(240,230,208,0.07); z-index: 3;
   }
 
   @keyframes rise {
@@ -235,14 +207,11 @@
   }
 
   .scanlines {
-    position: fixed; inset: 0; z-index: 1;
-    pointer-events: none;
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
     background: repeating-linear-gradient(
       to bottom,
-      transparent,
-      transparent 3px,
-      rgba(0,0,0,0.04) 3px,
-      rgba(0,0,0,0.04) 4px
+      transparent, transparent 3px,
+      rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px
     );
   }
 
@@ -250,8 +219,7 @@
     position: fixed; bottom: 48px; right: 32px;
     font-size: 10px; letter-spacing: 0.2em;
     text-transform: uppercase; color: var(--text-dim);
-    cursor: pointer;
-    z-index: 10;
+    cursor: pointer; z-index: 10;
     display: flex; align-items: center; gap: 8px;
     transition: color 0.2s;
   }
@@ -259,8 +227,7 @@
   .audio-hint:hover { color: var(--cream); }
 
   .audio-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
+    width: 6px; height: 6px; border-radius: 50%;
     background: var(--rust);
     animation: pulse-dot 1.5s ease-in-out infinite;
   }
@@ -272,139 +239,123 @@
 
   .audio-dot.paused { animation: none; opacity: 0.3; }
 
-  /* ── MANUAL TRIGGER BUTTON ── */
   #trigger-btn {
-    position: fixed;
-    bottom: 48px;
-    left: 32px;
-    z-index: 10;
+    position: fixed; bottom: 48px; left: 32px; z-index: 10;
     background: rgba(192,82,42,0.12);
     border: 1px solid rgba(192,82,42,0.4);
     color: var(--rust);
-    font-family: 'Jost', sans-serif;
-    font-weight: 700;
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    padding: 8px 16px;
-    cursor: pointer;
-    border-radius: 2px;
+    font-family: 'Jost', sans-serif; font-weight: 700;
+    font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+    padding: 8px 16px; cursor: pointer; border-radius: 2px;
     transition: background 0.2s, color 0.2s, border-color 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    display: flex; align-items: center; gap: 8px;
   }
 
   #trigger-btn:hover {
     background: rgba(192,82,42,0.25);
-    border-color: var(--rust);
-    color: var(--warm);
+    border-color: var(--rust); color: var(--warm);
   }
 
-  #trigger-btn:active {
-    transform: scale(0.97);
-  }
-
-  #trigger-btn.disabled {
-    opacity: 0.3;
-    pointer-events: none;
-  }
+  #trigger-btn:active { transform: scale(0.97); }
+  #trigger-btn.disabled { opacity: 0.3; pointer-events: none; }
 
   #trigger-btn-dot {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: var(--rust);
+    width: 5px; height: 5px; border-radius: 50%; background: var(--rust);
   }
 
-  /* photos status indicator */
   #photos-status {
-    position: fixed;
-    top: 48px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    z-index: 10;
-    transition: opacity 1s;
+    position: fixed; top: 48px; left: 50%; transform: translateX(-50%);
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--text-dim); z-index: 10; transition: opacity 1s;
   }
 
   /* ── BLACK HOLE ── */
   #blackhole-canvas {
-    position: fixed; inset: 0;
-    z-index: 50;
-    pointer-events: none;
-    opacity: 0;
+    position: fixed; inset: 0; z-index: 50; pointer-events: none; opacity: 0;
   }
 
-  /* ── PHOTO SLIDESHOW ── */
+  /* ── SLIDESHOW ── */
   #slideshow {
-    position: fixed; inset: 0;
-    z-index: 60;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    background: #000;
+    position: fixed; inset: 0; z-index: 60;
+    display: none; align-items: center; justify-content: center; background: #000;
   }
 
   #slideshow-img {
-    max-width: 100vw;
-    max-height: 100vh;
-    object-fit: contain;
-    opacity: 0;
-    transition: opacity 0.08s ease;
+    max-width: 100vw; max-height: 100vh; object-fit: contain;
+    opacity: 0; transition: opacity 0.08s ease;
   }
 
-  /* ── GOODBYE TEXT ── */
+  /* ── GOODBYE ── */
   #goodbye {
-    position: fixed; inset: 0;
-    z-index: 70;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    background: #000;
-    flex-direction: column;
-    gap: 24px;
+    position: fixed; inset: 0; z-index: 70;
+    display: none; align-items: center; justify-content: center;
+    background: #000; flex-direction: column; gap: 24px;
   }
 
   #goodbye-text {
-    font-family: 'Jost', sans-serif;
-    font-weight: 900;
+    font-family: 'Jost', sans-serif; font-weight: 900;
     font-size: clamp(48px, 10vw, 120px);
-    color: var(--cream);
-    text-align: center;
-    letter-spacing: -0.02em;
-    opacity: 0;
-    transform: scale(0.85);
+    color: var(--cream); text-align: center; letter-spacing: -0.02em;
+    opacity: 0; transform: scale(0.85);
     transition: opacity 2s ease, transform 2s ease;
     text-shadow: 0 0 60px rgba(192,82,42,0.4), 0 0 120px rgba(192,82,42,0.15);
   }
 
-  #goodbye-text em {
-    color: var(--warm);
-    font-style: italic;
-  }
+  #goodbye-text em { color: var(--warm); font-style: italic; }
 
   #goodbye-year {
-    font-size: clamp(12px, 2vw, 18px);
-    letter-spacing: 0.5em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    opacity: 0;
-    transition: opacity 2s ease 1s;
+    font-size: clamp(12px, 2vw, 18px); letter-spacing: 0.5em;
+    text-transform: uppercase; color: var(--text-dim);
+    opacity: 0; transition: opacity 2s ease 1s;
   }
 
-  /* ── SUCK-IN animation ── */
+  #epilogue-logo {
+    width: clamp(80px, 12vw, 140px); opacity: 0; display: none;
+    transition: opacity 2s ease;
+    filter: drop-shadow(0 0 30px rgba(192,82,42,0.6)) drop-shadow(0 0 80px rgba(192,82,42,0.25));
+  }
+
+  /* ── TAUNT ── */
+  #taunt {
+    position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+    font-size: clamp(11px, 1.5vw, 14px); letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--text-dim);
+    opacity: 0; transition: opacity 0.8s ease;
+    text-align: center; white-space: nowrap; z-index: 80; pointer-events: none;
+  }
+
+  #taunt.visible { opacity: 1; }
+
+  /* ── FINE ── */
+  #fine-wrap {
+    position: fixed; inset: 0; z-index: 75;
+    display: none; align-items: center; justify-content: center;
+    flex-direction: column; gap: 20px;
+  }
+
+  #fine-text {
+    font-family: 'Jost', sans-serif; font-weight: 900;
+    font-size: clamp(32px, 6vw, 72px); color: var(--warm);
+    letter-spacing: -0.01em; opacity: 0; text-align: center;
+    transition: opacity 1.5s ease;
+    text-shadow: 0 0 40px rgba(192,82,42,0.5);
+  }
+
+  #fine-sub {
+    font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--text-dim); opacity: 0; transition: opacity 1.5s ease 0.5s;
+  }
+
+  /* ── SUCK-IN ── */
   .suck {
-    animation: suck-in var(--suck-dur, 0.7s) cubic-bezier(0.55, 0, 1, 0.45) var(--suck-delay, 0s) forwards !important;
-    transform-origin: var(--hole-x, 50%) var(--hole-y, 50%);
+    animation: suck-in var(--suck-dur,0.7s) cubic-bezier(0.55,0,1,0.45) var(--suck-delay,0s) forwards !important;
+    transform-origin: var(--hole-x,50%) var(--hole-y,50%);
   }
 
   @keyframes suck-in {
     0%   { opacity: 1; transform: scale(1) translate(0,0) rotate(0deg); filter: blur(0px); }
     60%  { opacity: 0.7; filter: blur(1px); }
-    100% { opacity: 0; transform: scale(0.02) translate(var(--tx,0), var(--ty,0)) rotate(var(--rot,180deg)); filter: blur(8px); }
+    100% { opacity: 0; transform: scale(0.02) translate(var(--tx,0),var(--ty,0)) rotate(var(--rot,180deg)); filter: blur(8px); }
   }
 </style>
 </head>
@@ -473,8 +424,7 @@
   <span id="bottom-msg">Click anywhere to start music</span>
 </div>
 
-<!-- Manual trigger button -->
-<button id="trigger-btn" onclick="manualTrigger()">
+<button id="trigger-btn">
   <div id="trigger-btn-dot"></div>
   <span>Trigger sequence</span>
 </button>
@@ -486,16 +436,22 @@
 
 <audio id="music"></audio>
 
-<!-- Slideshow overlay -->
 <div id="slideshow">
   <img id="slideshow-img" src="" alt="">
 </div>
 
-<!-- Goodbye overlay -->
 <div id="goodbye">
+  <img id="epilogue-logo" src="logo.png" alt="">
   <div id="goodbye-text">Goodbye,<br><em>Rec Room.</em></div>
   <div id="goodbye-year">2016 — 2026</div>
 </div>
+
+<div id="fine-wrap">
+  <div id="fine-text">Fine. I feel bad.</div>
+  <div id="fine-sub">Here's one more song.</div>
+</div>
+
+<div id="taunt"></div>
 
 <script>
 // ── canvas embers ──
@@ -540,7 +496,6 @@ function drawFrame() {
     }
     e.x += e.vx;
     e.y += e.vy;
-
     const alpha = Math.sin((e.life / e.maxLife) * Math.PI) * 0.7;
     ctx.beginPath();
     ctx.arc(e.x, e.y, e.r, 0, Math.PI * 2);
@@ -557,13 +512,13 @@ const SHUTDOWN = new Date("2026-06-01T16:00:00Z");
 const LAUNCH   = new Date("2016-01-01T00:00:00Z");
 const TOTAL    = SHUTDOWN - LAUNCH;
 
-const dEl   = document.getElementById('days');
-const hEl   = document.getElementById('hours');
-const mEl   = document.getElementById('mins');
-const sEl   = document.getElementById('secs');
-const bar   = document.getElementById('bar');
-const pct   = document.getElementById('pct');
-const bMsg  = document.getElementById('bottom-msg');
+const dEl  = document.getElementById('days');
+const hEl  = document.getElementById('hours');
+const mEl  = document.getElementById('mins');
+const sEl  = document.getElementById('secs');
+const bar  = document.getElementById('bar');
+const pct  = document.getElementById('pct');
+const bMsg = document.getElementById('bottom-msg');
 
 function pad(n) { return String(Math.max(0,n)).padStart(2,'0'); }
 
@@ -608,7 +563,7 @@ function update() {
   pct.textContent = progress.toFixed(2) + '%';
 
   if (d > 60)      bMsg.textContent = 'Still time to make memories.';
-  else if (d > 14) bMsg.textContent = 'The clock is ticking.. Slowly, yet steadly.';
+  else if (d > 14) bMsg.textContent = 'The clock is ticking.. Slowly, yet steadily.';
   else if (d > 3)  bMsg.textContent = 'Cherish the time that remains.';
   else             bMsg.textContent = 'The end is near. Thank you, Rec Room.';
 }
@@ -616,15 +571,15 @@ function update() {
 setInterval(update, 1000);
 update();
 
-// ── audio playlist ──
+// ── audio ──
 const TRACKS = [
-  { url: 'OOBE.mp3', name: 'OOBE' },
-  { url: 'Electar.mp3', name: 'Electar' },
+  { url: 'OOBE.mp3',             name: 'OOBE' },
+  { url: 'Electar.mp3',          name: 'Electar' },
   { url: 'First Impression.mp3', name: 'First Impression' },
-  { url: 'Join The Club.mp3', name: 'Join the Club' },
+  { url: 'Join The Club.mp3',    name: 'Join the Club' },
   { url: 'Account Organism.mp3', name: 'Account Organism' },
-  { url: 'Paintball River.mp3', name: 'Paintball River' },
-  { url: 'Sport Funk.mp3', name: 'Sport Funk' },
+  { url: 'Paintball River.mp3',  name: 'Paintball River' },
+  { url: 'Sport Funk.mp3',       name: 'Sport Funk' },
 ];
 
 function shuffle(arr) {
@@ -636,32 +591,27 @@ function shuffle(arr) {
   return a;
 }
 
-const music  = document.getElementById('music');
-const dot    = document.getElementById('audio-dot');
-const albl   = document.getElementById('audio-label');
-const abtn   = document.getElementById('audio-btn');
+const music = document.getElementById('music');
+const dot   = document.getElementById('audio-dot');
+const albl  = document.getElementById('audio-label');
+const abtn  = document.getElementById('audio-btn');
 
 let queue   = shuffle(TRACKS);
 let qIdx    = 0;
 let playing = false;
 
-// Preload goodbye audio
 const goodbyeAudio = new Audio('./Goodbye.mp3');
 goodbyeAudio.preload = 'auto';
 
 function loadTrack(idx) {
-  const track = queue[idx];
-  music.src = track.url;
+  music.src = queue[idx].url;
   music.load();
-  albl.textContent = track.name;
+  albl.textContent = queue[idx].name;
 }
 
 function nextTrack() {
   qIdx++;
-  if (qIdx >= queue.length) {
-    queue = shuffle(TRACKS);
-    qIdx = 0;
-  }
+  if (qIdx >= queue.length) { queue = shuffle(TRACKS); qIdx = 0; }
   loadTrack(qIdx);
   if (playing) music.play().catch(() => {});
 }
@@ -683,14 +633,9 @@ function toggleAudio() {
 }
 
 abtn.addEventListener('click', e => { e.stopPropagation(); toggleAudio(); });
-document.addEventListener('click', e => {
-  if (!playing) toggleAudio();
-}, { once: true });
+document.addEventListener('click', () => { if (!playing) toggleAudio(); }, { once: true });
 
-// ─────────────────────────────────────────────
-// ── REC.NET PHOTO FETCHING ──
-// ─────────────────────────────────────────────
-
+// ── photos ──
 let verifiedPhotos = [];
 const photosStatusEl = document.getElementById('photos-status');
 
@@ -700,61 +645,45 @@ async function fetchRecNetPhotos() {
     const res = await fetch('./imgs.json');
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
-
-    // data is an array
     const items = Array.isArray(data) ? data : [];
-
     const urls = items
       .filter(item => item && item.ImageName)
       .map(item => `https://img.rec.net/${item.ImageName}?width=1080`);
-
     if (urls.length === 0) throw new Error('No images found');
-
-    // Shuffle
     for (let i = urls.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [urls[i], urls[j]] = [urls[j], urls[i]];
     }
-
     verifiedPhotos = urls;
     photosStatusEl.textContent = `${urls.length} photos loaded`;
     setTimeout(() => { photosStatusEl.style.opacity = '0'; }, 2000);
   } catch (err) {
-    console.warn('Rec.net photo fetch failed:', err);
+    console.warn('Photo fetch failed:', err);
     photosStatusEl.textContent = 'Photos unavailable — using fallback';
     setTimeout(() => { photosStatusEl.style.opacity = '0'; }, 3000);
-    // Fallback to logo
     verifiedPhotos = ['logo.png'];
   }
 }
-
-// Kick off immediately
 fetchRecNetPhotos();
 
-// ─────────────────────────────────────────────
-// ── MANUAL TRIGGER ──
-// ─────────────────────────────────────────────
-
-function manualTrigger() {
+// ── trigger button ──
+document.getElementById('trigger-btn').addEventListener('click', e => {
+  e.stopPropagation();
   if (shutdownTriggered) return;
   shutdownTriggered = true;
   document.getElementById('trigger-btn').classList.add('disabled');
   triggerShutdownSequence();
-}
+});
 
-// ─────────────────────────────────────────────
-// ── BLACK HOLE CANVAS ──
-// ─────────────────────────────────────────────
-
+// ── black hole ──
 const bhCanvas = document.getElementById('blackhole-canvas');
 const bhCtx = bhCanvas.getContext('2d');
-let bhAnimId = null;
 let bhRadius = 0;
-let bhPulse = 0;
+let bhPulse  = 0;
 let bhParticles = [];
 
 function resizeBH() {
-  bhCanvas.width = window.innerWidth;
+  bhCanvas.width  = window.innerWidth;
   bhCanvas.height = window.innerHeight;
 }
 resizeBH();
@@ -767,8 +696,7 @@ function createBHParticles(cx, cy) {
     return {
       x: cx + Math.cos(angle) * dist,
       y: cy + Math.sin(angle) * dist,
-      angle,
-      dist,
+      angle, dist,
       speed: Math.random() * 1.5 + 0.5,
       size:  Math.random() * 2.5 + 0.5,
       hue:   Math.random() * 60 + 200,
@@ -779,7 +707,6 @@ function createBHParticles(cx, cy) {
 
 function drawBlackHole(cx, cy, progress) {
   bhCtx.clearRect(0, 0, bhCanvas.width, bhCanvas.height);
-
   bhCtx.fillStyle = `rgba(0,0,0,${progress * 0.7})`;
   bhCtx.fillRect(0, 0, bhCanvas.width, bhCanvas.height);
 
@@ -787,16 +714,16 @@ function drawBlackHole(cx, cy, progress) {
   bhRadius = progress * maxR * 0.18;
   bhPulse += 0.04;
 
-  const ringCount = 6;
-  for (let i = ringCount; i >= 1; i--) {
-    const ringR = Math.max(bhRadius * 0.7 + 1, bhRadius * (1 + i * 0.55) + Math.sin(bhPulse + i) * 3);
+  for (let i = 6; i >= 1; i--) {
+    const r0 = Math.max(0, bhRadius * 0.7);
+    const r1 = Math.max(r0 + 0.5, bhRadius * (1 + i * 0.55) + Math.sin(bhPulse + i) * 3);
     const alpha = (0.35 / i) * progress;
-    const grad = bhCtx.createRadialGradient(cx, cy, bhRadius * 0.7, cx, cy, ringR);
+    const grad = bhCtx.createRadialGradient(cx, cy, r0, cx, cy, r1);
     grad.addColorStop(0,   `hsla(${30 + i*15}, 90%, 60%, ${alpha})`);
     grad.addColorStop(0.5, `hsla(${200 + i*20}, 70%, 50%, ${alpha * 0.5})`);
     grad.addColorStop(1,   'transparent');
     bhCtx.beginPath();
-    bhCtx.arc(cx, cy, ringR, 0, Math.PI * 2);
+    bhCtx.arc(cx, cy, r1, 0, Math.PI * 2);
     bhCtx.fillStyle = grad;
     bhCtx.fill();
   }
@@ -806,45 +733,43 @@ function drawBlackHole(cx, cy, progress) {
     p.dist  -= p.speed * 0.5 * progress;
     p.x = cx + Math.cos(p.angle) * p.dist;
     p.y = cy + Math.sin(p.angle) * p.dist;
-
     if (p.dist < bhRadius) {
       p.dist = Math.random() * Math.min(window.innerWidth, window.innerHeight) * 0.5 + 100;
       p.alpha = Math.random() * 0.6 + 0.2;
     }
-
-    const alpha = p.alpha * Math.min(p.dist / bhRadius, 1) * progress;
+    const alpha = p.alpha * Math.min(p.dist / Math.max(bhRadius, 1), 1) * progress;
     bhCtx.beginPath();
     bhCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
     bhCtx.fillStyle = `hsla(${p.hue}, 80%, 70%, ${alpha})`;
     bhCtx.fill();
   });
 
-  const lensGrad = bhCtx.createRadialGradient(cx, cy, 0, cx, cy, bhRadius * 2.5);
+  const lensR = Math.max(0.5, bhRadius * 2.5);
+  const lensGrad = bhCtx.createRadialGradient(cx, cy, 0, cx, cy, lensR);
   lensGrad.addColorStop(0,    'rgba(0,0,0,1)');
   lensGrad.addColorStop(0.45, 'rgba(0,0,0,1)');
   lensGrad.addColorStop(0.65, `rgba(255,140,40,${0.25 * progress})`);
   lensGrad.addColorStop(1,    'transparent');
   bhCtx.beginPath();
-  bhCtx.arc(cx, cy, bhRadius * 2.5, 0, Math.PI * 2);
+  bhCtx.arc(cx, cy, lensR, 0, Math.PI * 2);
   bhCtx.fillStyle = lensGrad;
   bhCtx.fill();
 
   bhCtx.beginPath();
-  bhCtx.arc(cx, cy, bhRadius, 0, Math.PI * 2);
+  bhCtx.arc(cx, cy, Math.max(0.5, bhRadius), 0, Math.PI * 2);
   bhCtx.fillStyle = '#000';
   bhCtx.fill();
 }
 
-// ── Full shutdown sequence ──
+// ── shutdown sequence ──
 function triggerShutdownSequence() {
-  // Stop current music and play Coach message
   music.pause();
+  playing = false;
   goodbyeAudio.currentTime = 0;
   goodbyeAudio.play().catch(() => {});
   albl.textContent = 'Coach Message';
   dot.classList.remove('paused');
 
-  // Hide the trigger button immediately
   const btn = document.getElementById('trigger-btn');
   btn.style.transition = 'opacity 0.3s';
   btn.style.opacity = '0';
@@ -868,21 +793,17 @@ function triggerShutdownSequence() {
   bhCanvas.style.opacity = '1';
   createBHParticles(cx, cy);
 
-  let bhProgress = 0;
-  const bhGrowDuration = 3000;
   const bhStart = performance.now();
 
   function growBH(now) {
-    bhProgress = Math.min((now - bhStart) / bhGrowDuration, 1);
+    const bhProgress = Math.min((now - bhStart) / 3000, 1);
     drawBlackHole(cx, cy, bhProgress);
     if (bhProgress < 1) {
-      bhAnimId = requestAnimationFrame(growBH);
+      requestAnimationFrame(growBH);
     } else {
       suckElements(suckTargets, cx, cy, () => {
         expandBlackHole(cx, cy, () => {
-          startSlideshow(() => {
-            showGoodbye();
-          });
+          startSlideshow(() => { showGoodbye(); });
         });
       });
     }
@@ -892,78 +813,57 @@ function triggerShutdownSequence() {
 
 function suckElements(targets, cx, cy, onDone) {
   const delay = 280;
-  let totalTime = 0;
-
+  let maxTime = 0;
   targets.forEach((el, i) => {
     if (!el) return;
     const suckDelay = i * delay;
-    totalTime = suckDelay + 700;
-
+    if (suckDelay + 700 > maxTime) maxTime = suckDelay + 700;
     setTimeout(() => {
-      if (!el) return;
       const rect = el.getBoundingClientRect();
       const elCx = rect.left + rect.width  / 2;
       const elCy = rect.top  + rect.height / 2;
-
       const dx = cx - elCx;
       const dy = cy - elCy;
-      const rot = (Math.random() * 360 + 180) + 'deg';
-
       el.style.setProperty('--hole-x', '50%');
       el.style.setProperty('--hole-y', '50%');
       el.style.setProperty('--tx', `${dx}px`);
       el.style.setProperty('--ty', `${dy}px`);
-      el.style.setProperty('--rot', rot);
+      el.style.setProperty('--rot', (Math.random() * 360 + 180) + 'deg');
       el.style.setProperty('--suck-dur', '0.65s');
       el.style.setProperty('--suck-delay', '0s');
       el.classList.add('suck');
     }, suckDelay);
   });
-
-  setTimeout(onDone, totalTime + 400);
+  setTimeout(onDone, maxTime + 400);
 }
 
 function expandBlackHole(cx, cy, onDone) {
-  const startR = bhRadius;
+  const startR  = bhRadius;
   const targetR = Math.sqrt(cx * cx + cy * cy) * 2.5;
-  const duration = 1200;
-  const start = performance.now();
+  const start   = performance.now();
 
   function frame(now) {
-    const t = Math.min((now - start) / duration, 1);
+    const t = Math.min((now - start) / 1200, 1);
     const eased = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
     const r = startR + (targetR - startR) * eased;
-
     bhCtx.clearRect(0, 0, bhCanvas.width, bhCanvas.height);
     bhCtx.fillStyle = 'rgba(0,0,0,0.95)';
     bhCtx.fillRect(0, 0, bhCanvas.width, bhCanvas.height);
-
     bhCtx.beginPath();
     bhCtx.arc(cx, cy, r, 0, Math.PI * 2);
     bhCtx.fillStyle = '#000';
     bhCtx.fill();
-
-    if (t < 1) {
-      requestAnimationFrame(frame);
-    } else {
-      bhCtx.fillStyle = '#000';
-      bhCtx.fillRect(0, 0, bhCanvas.width, bhCanvas.height);
-      onDone();
-    }
+    if (t < 1) { requestAnimationFrame(frame); }
+    else { bhCtx.fillStyle = '#000'; bhCtx.fillRect(0, 0, bhCanvas.width, bhCanvas.height); onDone(); }
   }
   requestAnimationFrame(frame);
 }
 
-// ── Photo slideshow using Rec.net photos ──
 function startSlideshow(onDone) {
   const el  = document.getElementById('slideshow');
   const img = document.getElementById('slideshow-img');
   el.style.display = 'flex';
-
-  const photos = verifiedPhotos.length > 0
-    ? [...verifiedPhotos]
-    : ['logo.png'];
-
+  const photos = verifiedPhotos.length > 0 ? [...verifiedPhotos] : ['logo.png'];
   const totalPhotos = photos.length;
   let idx = 0;
 
@@ -974,27 +874,25 @@ function startSlideshow(onDone) {
       setTimeout(() => { el.style.display = 'none'; onDone(); }, 500);
       return;
     }
-
     const progress = idx / totalPhotos;
-    const duration = Math.round(150 - progress * 120); // Faster: 150ms to 30ms
-
+    const duration = Math.round(150 - progress * 120);
     img.src = photos[idx];
     img.style.opacity = '0';
     void img.offsetWidth;
     img.style.transition = `opacity ${Math.min(duration * 0.3, 30)}ms ease`;
     img.style.opacity = '1';
-
     idx++;
     setTimeout(showNext, duration);
   }
-
   showNext();
 }
 
+// ── goodbye + epilogue ──
 function showGoodbye() {
   const el   = document.getElementById('goodbye');
   const text = document.getElementById('goodbye-text');
   const year = document.getElementById('goodbye-year');
+  const logo = document.getElementById('epilogue-logo');
 
   el.style.display = 'flex';
   requestAnimationFrame(() => {
@@ -1002,6 +900,74 @@ function showGoodbye() {
     text.style.transform = 'scale(1)';
     year.style.opacity = '1';
   });
+
+  setTimeout(() => {
+    text.style.transition = 'opacity 1.5s ease, transform 1.5s ease';
+    text.style.opacity = '0';
+    text.style.transform = 'scale(0.95)';
+    year.style.transition = 'opacity 1.5s ease';
+    year.style.opacity = '0';
+
+    setTimeout(() => {
+      text.style.display = 'none';
+      year.style.display = 'none';
+      logo.style.display = 'block';
+      requestAnimationFrame(() => { logo.style.opacity = '1'; });
+      setTimeout(() => { startEpilogue(); }, 2500);
+    }, 1600);
+  }, 4000);
+}
+
+function startEpilogue() {
+  const taunts = [
+    { msg: "What are you waiting for?", show: 0,    hide: 2200  },
+    { msg: "The game won't come back.", show: 3000, hide: 5200  },
+    { msg: "Really?",                   show: 6500, hide: 8700  },
+    { msg: "Hmm. You're still here.",   show: 9500, hide: 11700 },
+  ];
+
+  const tauntEl = document.getElementById('taunt');
+  taunts.forEach(({ msg, show, hide }) => {
+    setTimeout(() => { tauntEl.textContent = msg; tauntEl.classList.add('visible'); }, show);
+    setTimeout(() => { tauntEl.classList.remove('visible'); }, hide);
+  });
+
+  setTimeout(() => { showFine(); }, 13500);
+}
+
+function showFine() {
+  const logo = document.getElementById('epilogue-logo');
+  const wrap = document.getElementById('fine-wrap');
+  const text = document.getElementById('fine-text');
+  const sub  = document.getElementById('fine-sub');
+
+  logo.style.transition = 'opacity 1s ease';
+  logo.style.opacity = '0';
+
+  wrap.style.display = 'flex';
+  requestAnimationFrame(() => {
+    text.style.opacity = '1';
+    sub.style.opacity  = '1';
+  });
+
+  setTimeout(() => {
+    queue = shuffle(TRACKS);
+    qIdx  = 0;
+    loadTrack(qIdx);
+    music.play().catch(() => {});
+    dot.classList.remove('paused');
+    playing = true;
+    albl.textContent = queue[qIdx].name;
+    sub.textContent  = '↑ ' + queue[qIdx].name;
+
+    setTimeout(() => {
+      text.style.transition = 'opacity 1.5s ease';
+      sub.style.transition  = 'opacity 1.5s ease 0.3s';
+      text.style.opacity = '0';
+      sub.style.opacity  = '0';
+      setTimeout(() => { wrap.style.display = 'none'; }, 2200);
+    }, 4000);
+  }, 2500);
 }
 </script>
 </body>
