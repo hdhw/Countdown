@@ -825,19 +825,24 @@ function drawBlackHole(cx, cy, progress) {
   bhRadius = progress * maxR * 0.18;
   bhPulse += 0.04;
 
-  const ringCount = 6;
-  for (let i = ringCount; i >= 1; i--) {
-    const ringR = Math.max(bhRadius * 0.7 + 1, bhRadius * (1 + i * 0.55) + Math.sin(bhPulse + i) * 3);
-    const alpha = (0.35 / i) * progress;
-    const grad = bhCtx.createRadialGradient(cx, cy, bhRadius * 0.7, cx, cy, ringR);
-    grad.addColorStop(0,   `hsla(${30 + i*15}, 90%, 60%, ${alpha})`);
-    grad.addColorStop(0.5, `hsla(${200 + i*20}, 70%, 50%, ${alpha * 0.5})`);
-    grad.addColorStop(1,   'transparent');
-    bhCtx.beginPath();
-    bhCtx.arc(cx, cy, ringR, 0, Math.PI * 2);
-    bhCtx.fillStyle = grad;
-    bhCtx.fill();
-  }
+const ringCount = 6;
+
+const innerR = Math.max(0, bhRadius * 0.7);
+
+for (let i = ringCount; i >= 1; i--) {
+  const outerR = Math.max(
+    innerR + 1,
+    bhRadius * (1 + i * 0.55) + Math.sin(bhPulse + i) * 3
+  );
+
+  const alpha = (0.35 / i) * progress;
+  const grad = bhCtx.createRadialGradient(cx, cy, innerR, cx, cy, outerR);
+
+  bhCtx.beginPath();
+  bhCtx.arc(cx, cy, outerR, 0, Math.PI * 2);
+  bhCtx.fillStyle = grad;
+  bhCtx.fill();
+}
 
   bhParticles.forEach(p => {
     p.angle -= (p.speed * 0.015) * (1 + progress * 2);
