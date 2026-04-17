@@ -391,6 +391,21 @@
     color: var(--text-dim); opacity: 0; transition: opacity 1.5s ease 0.5s;
   }
 
+  /* ── NO MORE ── */
+  #no-more {
+    position: fixed; inset: 0; z-index: 75;
+    display: none; align-items: center; justify-content: center;
+    background: #000; flex-direction: column; gap: 20px;
+  }
+
+  #no-more-text {
+    font-family: 'Jost', sans-serif; font-weight: 900;
+    font-size: clamp(32px, 6vw, 72px); color: var(--rust);
+    letter-spacing: -0.01em; opacity: 0; text-align: center;
+    transition: opacity 1.5s ease;
+    text-shadow: 0 0 40px rgba(192,82,42,0.5);
+  }
+
   /* ── SUCK-IN ── */
   .suck {
     animation: suck-in var(--suck-dur,0.7s) cubic-bezier(0.55,0,1,0.45) var(--suck-delay,0s) forwards !important;
@@ -503,6 +518,10 @@
 <div id="fine-wrap">
   <div id="fine-text">Fine. I feel bad.</div>
   <div id="fine-sub">Here's one more song.</div>
+</div>
+
+<div id="no-more">
+  <div id="no-more-text">No more.<br>You get what you get.</div>
 </div>
 
 <div id="taunt"></div>
@@ -661,6 +680,59 @@ const TRACKS = [
   { url: 'Account Organism.mp3', name: 'Account Organism' },
   { url: 'Paintball River.mp3',  name: 'Paintball River' },
   { url: 'Sport Funk.mp3',       name: 'Sport Funk' },
+  { url: '3D Charades.mp3',      name: '3D Charades' },
+  { url: 'Apartment 205 (Demo).mp3', name: 'Apartment 205' },
+  { url: 'Bee DM.mp3',           name: 'Bee DM' },
+  { url: 'Castle Combat.mp3',    name: 'Castle Combat' },
+  { url: 'Clearcut.mp3',         name: 'Clearcut' },
+  { url: 'Crescendo of the Blood Moon.mp3', name: 'Crescendo' },
+  { url: 'Crimson Cauldron Combat.mp3', name: 'Crimson Cauldron' },
+  { url: 'Exploring The Crimson Mines.mp3', name: 'Crimson Mines' },
+  { url: 'Exploring the Port.mp3', name: 'Exploring Port' },
+  { url: 'Frontier Island.mp3',  name: 'Frontier Island' },
+  { url: 'Gavotte of the Blood Moon.mp3', name: 'Gavotte' },
+  { url: 'Ghost Beard.mp3',      name: 'Ghost Beard' },
+  { url: 'Goat Attitude.mp3',    name: 'Goat Attitude' },
+  { url: 'Goblin Work Song.mp3', name: 'Goblin Work' },
+  { url: 'Golden Trophy Combat.mp3', name: 'Trophy Combat' },
+  { url: 'Jumbotron Engage.mp3', name: 'Jumbotron Engage' },
+  { url: 'Jumbotron Explore.mp3', name: 'Jumbotron Explore' },
+  { url: 'Laser Tag High.mp3',   name: 'Laser Tag High' },
+  { url: 'Laser Tag Low.mp3',    name: 'Laser Tag Low' },
+  { url: 'Lone Shoe Blues.mp3',  name: 'Lone Shoe Blues' },
+  { url: 'Lounge Event.mp3',     name: 'Lounge Event' },
+  { url: 'NEW JACK RUNNER.mp3',  name: 'New Jack Runner' },
+  { url: 'One Big Happy Family.mp3', name: 'Happy Family' },
+  { url: 'Paintball Homestead.mp3', name: 'Paintball Homestead' },
+  { url: 'Piracy On The High Seas.mp3', name: 'Piracy' },
+  { url: 'Pirate Brawl.mp3',     name: 'Pirate Brawl' },
+  { url: 'Pirate Shopping Channel.mp3', name: 'Pirate Shop' },
+  { url: 'Post Run.mp3',         name: 'Post Run' },
+  { url: 'Quarry.mp3',           name: 'Quarry' },
+  { url: 'Quest for the Golden Trophy.mp3', name: 'Golden Quest' },
+  { url: 'Rebel Rose vs MetaCorp.mp3', name: 'Rebel Rose' },
+  { url: 'Rec Room Theme.mp3',   name: 'Rec Room Theme' },
+  { url: 'Secret Room.mp3',      name: 'Secret Room' },
+  { url: 'Shanty of Lost Skulls.mp3', name: 'Lost Skulls Shanty' },
+  { url: 'Skeletal Siege.mp3',   name: 'Skeletal Siege' },
+  { url: 'Spillway.mp3',         name: 'Spillway' },
+  { url: 'Sport Dub 1 aka Flight Beam.mp3', name: 'Flight Beam' },
+  { url: 'Sport Funk 2 aka Dodgeball.mp3', name: 'Dodgeball' },
+  { url: 'Stunt Runner.mp3',     name: 'Stunt Runner' },
+  { url: 'Sunset Drive In.mp3',  name: 'Sunset Drive In' },
+  { url: 'The Ballad of Vota Vader.mp3', name: 'Vota Vader' },
+  { url: 'The Carriage Ride.mp3', name: 'Carriage Ride' },
+  { url: 'The Crimson Tower.mp3', name: 'Crimson Tower' },
+  { url: 'The Fall of Jumbotron.mp3', name: 'Fall of Jumbotron' },
+  { url: 'The Goblin King.mp3',  name: 'Goblin King' },
+  { url: 'The Ink Space.mp3',    name: 'Ink Space' },
+  { url: 'The Inverted Ballroom.mp3', name: 'Inverted Ballroom' },
+  { url: 'The Isle of Lost Skulking.mp3', name: 'Lost Skulking' },
+  { url: 'The Isle of Lost Skulls.mp3', name: 'Lost Skulls' },
+  { url: 'Tomb Heist.mp3',       name: 'Tomb Heist' },
+  { url: 'Vampire Showdown.mp3', name: 'Vampire Showdown' },
+  { url: 'Welcome to Cyber Junk City.mp3', name: 'Cyber Junk City' },
+  { url: '^Bassment.mp3',        name: 'Bassment' },
 ];
 
 function shuffle(arr) {
@@ -680,6 +752,7 @@ const abtn  = document.getElementById('audio-btn');
 let queue   = shuffle(TRACKS);
 let qIdx    = 0;
 let playing = false;
+let finalSongActive = false;
 
 const goodbyeAudio = new Audio('./Goodbye.mp3');
 goodbyeAudio.preload = 'auto';
@@ -1096,14 +1169,21 @@ function showFine() {
   });
 
   setTimeout(() => {
-    queue = shuffle(TRACKS);
-    qIdx  = 0;
-    loadTrack(qIdx);
+    finalSongActive = true;
+    const finalTrack = TRACKS[0];
+    music.src = finalTrack.url;
+    music.load();
     music.play().catch(() => {});
     dot.classList.remove('paused');
     playing = true;
-    albl.textContent = queue[qIdx].name;
-    sub.textContent  = '↑ ' + queue[qIdx].name;
+    albl.textContent = finalTrack.name;
+    sub.textContent  = '↑ ' + finalTrack.name;
+
+    function onFinalEnd() {
+      music.removeEventListener('ended', onFinalEnd);
+      showNoMore();
+    }
+    music.addEventListener('ended', onFinalEnd);
 
     setTimeout(() => {
       text.style.transition = 'opacity 1.5s ease';
@@ -1113,6 +1193,21 @@ function showFine() {
       setTimeout(() => { wrap.style.display = 'none'; }, 2200);
     }, 4000);
   }, 2500);
+}
+
+function showNoMore() {
+  const wrap = document.getElementById('no-more');
+  const text = document.getElementById('no-more-text');
+  
+  wrap.style.display = 'flex';
+  requestAnimationFrame(() => {
+    text.style.opacity = '1';
+  });
+  
+  music.pause();
+  playing = false;
+  dot.classList.add('paused');
+  albl.textContent = 'No more';
 }
 
 })();
