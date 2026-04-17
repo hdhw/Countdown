@@ -508,6 +508,31 @@
 <div id="taunt"></div>
 
 <script>
+(function() {
+// Check if sequence already viewed
+if (localStorage.getItem('sequenceViewed') === 'true') {
+  document.body.style.background = '#000';
+  document.getElementById('stage').style.display = 'none';
+  document.getElementById('date-strip').style.display = 'none';
+  document.getElementById('bottom-strip').style.display = 'none';
+  document.getElementById('trigger-btn').style.display = 'none';
+  document.getElementById('audio-btn').style.display = 'none';
+  document.getElementById('photos-status').style.display = 'none';
+  document.getElementById('vignette').style.display = 'none';
+  document.getElementById('scanlines').style.display = 'none';
+  document.getElementById('bg').style.display = 'none';
+
+  const logo = document.createElement('img');
+  logo.src = 'logo.png';
+  logo.className = 'rr-logo';
+  logo.style.position = 'fixed';
+  logo.style.top = '50%';
+  logo.style.left = '50%';
+  logo.style.transform = 'translate(-50%, -50%)';
+  document.body.appendChild(logo);
+  return;
+}
+
 // ── canvas embers ──
 const canvas = document.getElementById('bg');
 const ctx = canvas.getContext('2d');
@@ -1086,6 +1111,9 @@ function showFine() {
     }, 4000);
   }, 2500);
 }
+
+localStorage.setItem('sequenceViewed', 'true');
+})();
 </script>
 </body>
 </html>
