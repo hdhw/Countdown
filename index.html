@@ -844,6 +844,7 @@ function drawBlackHole(cx, cy, progress) {
 
 // ── shutdown sequence ──
 function triggerShutdownSequence() {
+  localStorage.setItem('sequenceViewed', 'true');
   music.pause();
   playing = false;
   goodbyeAudio.currentTime = 0;
@@ -1114,7 +1115,6 @@ function showFine() {
   }, 2500);
 }
 
-localStorage.setItem('sequenceViewed', 'true');
 })();
 </script>
 </body>
